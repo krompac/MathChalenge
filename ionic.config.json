@@ -1,0 +1,7 @@
+{
+  "name": "MathChalenge",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
