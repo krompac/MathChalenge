@@ -19,8 +19,14 @@ export class HomePage {
 
   constructor() {}
 
-  onClick(event: any) {
-    console.log(event.target.innerText);
+  onClick(rowNumber: number, columnNumber: number) {
+    const data = this.dataEntry(rowNumber, columnNumber);
+
+    if (!isNaN(Number(data))) {
+      this.textInput.nativeElement.value += data;
+    } else if (data === this.clear) {
+      this.textInput.nativeElement.value = '';
+    }
   }
 
   dataEntry(rowNumber: number, columnNumber: number) {
