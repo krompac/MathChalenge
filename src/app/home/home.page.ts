@@ -1,11 +1,15 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MathTaskService } from '../services/math-task.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+
   @ViewChild('textInput') textInput: ElementRef;
 
   clear = 'Clear';
@@ -17,19 +21,52 @@ export class HomePage {
     [3, 6, 9, this.check],
   ];
 
-  constructor() {}
+  task = '';
+
+  constructor(private mathTaskService: MathTaskService) {}
+
+  get resultValue() {
+    return this.textInput.nativeElement.value;
+  }
+
+  set resultValue(value: any) {
+    this.textInput.nativeElement.value = value;
+  }
+
+  ngOnInit() {
+    this.task = this.mathTaskService.generateTask();
+  }
+
+  checkTask() {
+    if (this.mathTaskService.checkValidity(Number(this.resultValue))) {
+      console.log('correct');
+      //TODO change later when the scoreService is implemented
+    } else {
+      console.log('wrong');
+    }
+
+    this.task = this.mathTaskService.generateTask();
+  }
 
   onClick(rowNumber: number, columnNumber: number) {
     const data = this.dataEntry(rowNumber, columnNumber);
 
     if (!isNaN(Number(data))) {
-      this.textInput.nativeElement.value += data;
-    } else if (data === this.clear) {
-      this.textInput.nativeElement.value = '';
+      this.resultValue += data;
+    } else {
+      if (data === this.check) {
+        this.checkTask();
+      }
+
+      this.resultValue = '';
     }
   }
 
   dataEntry(rowNumber: number, columnNumber: number) {
     return this.data[rowNumber][columnNumber];
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
