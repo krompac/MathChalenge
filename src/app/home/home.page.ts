@@ -38,9 +38,9 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   checkTask() {
+    console.log('checking...');
     if (this.mathTaskService.checkValidity(Number(this.resultValue))) {
       console.log('correct');
-      //TODO change later when the scoreService is implemented
     } else {
       console.log('wrong');
     }
