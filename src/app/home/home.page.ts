@@ -14,11 +14,12 @@ export class HomePage implements OnInit, OnDestroy {
 
   clear = 'Clear';
   check = 'Check';
+  changeSign = '+/-';
 
   data = [
     [1, 4, 7, this.clear],
     [2, 5, 8, 0],
-    [3, 6, 9, this.check],
+    [3, 6, 9, this.changeSign],
   ];
 
   task = '';
@@ -35,6 +36,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.task = this.mathTaskService.generateTask();
+    console.log(this.task);
   }
 
   checkTask() {
@@ -46,6 +48,23 @@ export class HomePage implements OnInit, OnDestroy {
     }
 
     this.task = this.mathTaskService.generateTask();
+    this.resultValue = '';
+  }
+
+  switchOrAddSign() {
+    switch (this.resultValue) {
+      case '':
+        this.resultValue = '-';
+        break;
+      case '-':
+        this.resultValue = '';
+        break;
+      default:
+        if (!isNaN(Number(this.resultValue))) {
+          this.resultValue = (-1 * Number(this.resultValue)).toString();
+        }
+        break;
+    }
   }
 
   onClick(rowNumber: number, columnNumber: number) {
@@ -53,11 +72,9 @@ export class HomePage implements OnInit, OnDestroy {
 
     if (!isNaN(Number(data))) {
       this.resultValue += data;
-    } else {
-      if (data === this.check) {
-        this.checkTask();
-      }
-
+    } else if (data === this.changeSign) {
+      this.switchOrAddSign();
+    } else if (data === this.clear) {
       this.resultValue = '';
     }
   }

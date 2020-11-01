@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Operations } from './math-task.service';
+import { Operations } from '../utility/operations';
 
 @Injectable({
   providedIn: 'root'

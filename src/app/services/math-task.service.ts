@@ -1,24 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Operations } from '../utility/operations';
 import { NumberGeneratorService } from './number-generator.service';
-
-export enum Operations {
-  '+',
-  '-',
-  '*',
-  '/',
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class MathTaskService {
   private result: number = 0;
+  private readonly equals = ' =';
 
   constructor(private numberGeneratorService: NumberGeneratorService) {}
-
-  get equals() {
-    return ' =';
-  }
 
   public generateTask(): string {
     const secondOperand = this.numberGeneratorService.getSecondOperand();
@@ -42,23 +33,17 @@ export class MathTaskService {
     switch (Operations[Operations[operation]]) {
       case Operations['+']:
         this.result = firstNumber + secondNumber;
-        console.log(this.result);
         break;
       case Operations['-']:
         this.result = firstNumber - secondNumber;
-        console.log(this.result);
         break;
       case Operations['*']:
         this.result = firstNumber * secondNumber;
-        console.log(this.result);
         break;
       case Operations['/']:
         this.result = firstNumber / secondNumber;
-        console.log(this.result);
         break;
     }
-
-    console.log(this.result);
   }
 
   public checkValidity(answer: number): boolean {
