@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AnimationService } from '../services/animation.service';
 import { MathTaskService } from '../services/math-task.service';
 
 @Component({
@@ -9,7 +10,6 @@ import { MathTaskService } from '../services/math-task.service';
 })
 export class HomePage implements OnInit, OnDestroy {
   private subscription = new Subscription();
-
   @ViewChild('textInput') textInput: ElementRef;
 
   clear = 'Clear';
@@ -24,7 +24,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   task = '';
 
-  constructor(private mathTaskService: MathTaskService) {}
+  constructor(private mathTaskService: MathTaskService, private animationService: AnimationService) {}
 
   get resultValue() {
     return this.textInput.nativeElement.value;
@@ -41,11 +41,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   checkTask() {
     console.log('checking...');
-    if (this.mathTaskService.checkValidity(Number(this.resultValue))) {
-      console.log('correct');
-    } else {
-      console.log('wrong');
-    }
+    const state =
+      this.resultValue !== '' && this.mathTaskService.checkValidity(Number(this.resultValue)) ? 'correct' : 'wrong';
+      
+    this.animationService.playAnimation(state, this.textInput.nativeElement);
 
     this.task = this.mathTaskService.generateTask();
     this.resultValue = '';
