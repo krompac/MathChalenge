@@ -34,7 +34,6 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.task = this.mathTaskService.generateTask();
-    console.log(this.task);
   }
 
   checkTask() {
