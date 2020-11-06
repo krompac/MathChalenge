@@ -1,5 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnimationService } from '../services/animation.service';
 import { MathTaskService } from '../services/math-task.service';
 
@@ -8,8 +7,7 @@ import { MathTaskService } from '../services/math-task.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
-  private subscription = new Subscription();
+export class HomePage implements OnInit {
   @ViewChild('textInput') textInput: ElementRef;
 
   clear = 'Clear';
@@ -43,7 +41,7 @@ export class HomePage implements OnInit, OnDestroy {
     console.log('checking...');
     const state =
       this.resultValue !== '' && this.mathTaskService.checkValidity(Number(this.resultValue)) ? 'correct' : 'wrong';
-      
+
     this.animationService.playAnimation(state, this.textInput.nativeElement);
 
     this.task = this.mathTaskService.generateTask();
@@ -80,9 +78,5 @@ export class HomePage implements OnInit, OnDestroy {
 
   dataEntry(rowNumber: number, columnNumber: number) {
     return this.data[rowNumber][columnNumber];
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
