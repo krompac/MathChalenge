@@ -14,8 +14,8 @@ export class MathTaskService {
   public generateTask(): string {
     const secondOperand = this.numberGeneratorService.getSecondOperand();
 
-    const moduloNumber = secondOperand === 0 ? 3 : 4;
-    const operation: Operations = this.getOperation(moduloNumber);
+    const numberOfPosssibleOperations = secondOperand === 0 ? 3 : 4;
+    const operation: Operations = this.getOperation(numberOfPosssibleOperations);
 
     const firstOperand = this.numberGeneratorService.getFirstOperand(operation, secondOperand);
 
@@ -24,8 +24,8 @@ export class MathTaskService {
     return firstOperand + ' ' + Operations[operation] + ' ' + secondOperand + this.equals;
   }
 
-  private getOperation(moduloNumber: number) {
-    const operation: Operations = Math.floor(Math.random() * moduloNumber);
+  private getOperation(numberOfPosssibleOperations: number) {
+    const operation: Operations = Math.floor(Math.random() * numberOfPosssibleOperations);
     return Operations[Operations[operation]];
   }
 

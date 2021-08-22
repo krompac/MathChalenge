@@ -21,6 +21,7 @@ export class HomePage implements OnInit {
   ];
 
   task = '';
+  score = 0;
 
   constructor(private mathTaskService: MathTaskService, private animationService: AnimationService) {}
 
@@ -38,8 +39,9 @@ export class HomePage implements OnInit {
 
   checkTask() {
     console.log('checking...');
-    const state =
-      this.resultValue !== '' && this.mathTaskService.checkValidity(Number(this.resultValue)) ? 'correct' : 'wrong';
+    const isTaskCorrect = this.resultValue !== '' && this.mathTaskService.checkValidity(Number(this.resultValue));
+    this.updateScore(isTaskCorrect);
+    const state = isTaskCorrect ? 'correct' : 'wrong';
 
     this.animationService.playAnimation(state, this.textInput.nativeElement);
 
@@ -77,5 +79,13 @@ export class HomePage implements OnInit {
 
   dataEntry(rowNumber: number, columnNumber: number) {
     return this.data[rowNumber][columnNumber];
+  }
+
+  private updateScore(isTaskCorrect: boolean) {
+    if (isTaskCorrect) {
+      this.score++;
+    } else if (this.score > 0) {
+      this.score--;
+    }
   }
 }

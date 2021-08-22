@@ -6,8 +6,8 @@ import { AnimationController } from '@ionic/angular';
 })
 export class AnimationService {
   private colors = {
-    correct: 'rgb(118, 238, 188)',
-    wrong: 'rgb(238, 131, 131)'
+    correct: 'rgb(33, 194, 145)',
+    wrong: 'rgb(223, 67, 67)'
   };
 
   constructor(private animationController: AnimationController) { }
@@ -16,10 +16,8 @@ export class AnimationService {
     this.animationController
         .create()
         .addElement(element)
-        .duration(500)
+        .duration(750)
         .keyframes([{ offset: 0.5, backgroundColor: this.colors[state] }])
         .play();
-
-    console.log(state);
   }
 }
